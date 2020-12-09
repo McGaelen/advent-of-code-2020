@@ -1,7 +1,8 @@
-$regexes = []
+require '../utils'
+
 $passwords = []
 
-file = open('input.txt')
+file = openInput
 
 file.each do |line|
   passDetails = line.split ' '
@@ -10,25 +11,22 @@ file.each do |line|
   atLeast = uses[0].to_i
   atMost = uses[1].to_i
   letter = passDetails[1].chomp ':'
-  $regexes.push Regexp.new("[#{letter}]")
-
-  # password
+  regex = Regexp.new("[#{letter}]")
   password = passDetails[2]
+
   $passwords.push({
     'password' => password,
     'atLeast' => atLeast,
-    'atMost' => atMost
+    'atMost' => atMost,
+    'regex' => regex
   })
 end
-
-puts $regexes.length
-puts $passwords.length
 
 def part1
   numCorrect = 0
 
-  $passwords.each_with_index do |pass, index|
-    matches = pass['password'].scan($regexes[index])
+  $passwords.each do |pass|
+    matches = pass['password'].scan(pass['regex'])
     numCorrect += 1 if matches.length >= pass['atLeast'] and matches.length <= pass['atMost']
   end
 
