@@ -1,4 +1,5 @@
-def openInput
+def openInput(transform = :chomp)
+  inputArray = []
   file = open('input.txt')
 
   if file == nil
@@ -6,5 +7,9 @@ def openInput
     exit 1
   end
 
-  return file
+  file.each do |thing|
+    inputArray.push thing.method(transform).call
+  end
+
+  inputArray
 end

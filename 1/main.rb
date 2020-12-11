@@ -1,9 +1,6 @@
-$numbers = []
-file = open('input.txt')
+require '../utils'
 
-file.each do |thing|
-  $numbers.push thing.to_i
-end
+$numbers = openInput :to_i
 
 # pt 1
 def part1
